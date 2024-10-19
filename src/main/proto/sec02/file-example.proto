@@ -1,0 +1,21 @@
+syntax = "proto3";
+
+option java_package = "com.example.grpc";
+option java_outer_classname = "FileServiceProto";
+
+service FileService {
+  // RPC method to download a file
+  rpc DownloadFile(FileRequest) returns (stream FileChunk);
+  rpc SyncFile(stream FileRequest) returns (stream FileChunk);
+}
+
+// The client sends a request with the file name
+message FileRequest {
+  string file_name = 1;
+}
+
+// The server streams the file in chunks
+message FileChunk {
+  bytes content = 1;
+  int32 size = 2; // Size of this chunk
+}
